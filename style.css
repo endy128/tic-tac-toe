@@ -49,6 +49,15 @@ body {
   height: 100%;
   width: 100%;
   background-color: #0ea5e9;
+  transition: all .5s linear;
+}
+
+.error {
+  border: 1px solid red;
+  transform: scale(1.1);
+  box-shadow: 0 0 5px red;
+  /* width: 200px; */
+
 }
 
 .score {
@@ -72,4 +81,6 @@ body {
   transform: translateX(-50%);
   top: 45%;
   transform: translateY(-50%);
+
 }
+

@@ -18,7 +18,13 @@ const gameBoard = (() => {
     }
 
     function setSquare(x, y, marker) {
-        _board[y][x] = marker;
+        if (_board[y][x] === '') {
+            _board[y][x] = marker;
+        } else {
+            let square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+            // square.classList.add('error');
+            return ('error');
+        }
     }
 
     return {
@@ -39,12 +45,12 @@ const render = (() => {
     'use strict';
 
     // cache a copy of the board DOM
-    const divBoard = document.querySelector('[data-name="board"');
+    const divBoard = document.querySelector('[data-name="board"]');
 
     // get a copy of the current game board
     const board = gameBoard.getBoard(); 
 
-    function renderBoard() {
+    function renderBoard(x, y) {
         // render the board array item by array item
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -54,12 +60,20 @@ const render = (() => {
                 div.dataset.x = j;
                 div.dataset.y = i;
                 div.className = 'square';
+                if (x == j && y == i) {
+                    console.log("Error class added");
+                    div.className += ' error';
+                }
+                div.style.transition = "all 0.7s";
                 let content = document.createTextNode(board[i][j]);
                 span.appendChild(content);
                 div.appendChild(span);
                 divBoard.appendChild(div);
+
+                
             }
         }
+
     }
 
     return {
@@ -97,10 +111,17 @@ function addEventListeners()  {
     squares.forEach(square => square.addEventListener('click', () => { 
         let x = square.getAttribute('data-x');
         let y = square.getAttribute('data-y');
-        gameBoard.setSquare(x, y, "X");
+        if (gameBoard.setSquare(x, y, "X") === 'error') {
+            console.log('error');
+            clearBoard();
+            render.renderBoard(x, y); // send the square co-ord's to render function to give the square an "error" class to highlight a bad move
+            addEventListeners();
+        } else {
         clearBoard();
-        render.renderBoard();
+        render.renderBoard(); // send the square co-ord's to render function to give the square an "error" class to highlight a bad move
         addEventListeners();
+    //    document.querySelectorAll('.square').style.transition = 'all 0.7s';
+        }
     }));
 };
 
