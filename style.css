@@ -49,15 +49,21 @@ body {
   height: 100%;
   width: 100%;
   background-color: #0ea5e9;
-  transition: all .5s linear;
+  transition: all .4s linear;
+  z-index: 9;
+}
+
+.square:hover {
+  /* border: 1px solid red; */
+  /* transform: scale(1.05); */
 }
 
 .error {
   border: 1px solid red;
   transform: scale(1.1);
   box-shadow: 0 0 5px red;
-  /* width: 200px; */
-
+  transition: all .01s linear;
+  background-color: red;
 }
 
 .score {
@@ -66,6 +72,9 @@ body {
 
 .controls {
   grid-area: 3 / 2 / 4 / 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
 }
 
 .square,
@@ -75,12 +84,33 @@ body {
   justify-self: center;
 }
 
-.square span {
+.square span,
+.active-player span {
   position: relative;
   left: 45%;
   transform: translateX(-50%);
   top: 45%;
   transform: translateY(-50%);
+}
 
+.active-player {
+  display: block;
+  width: 150px;
+  height: 50px;
+  background-color: green;
+  border-radius: 20px;
+}
+
+.player1 {
+  background-color: blue;
+}
+
+.player2 {
+  background-color: red;
+}
+
+button {
+  border-radius: 10px;
+  border-style: none;
 }
 
