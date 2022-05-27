@@ -5,6 +5,7 @@ Using:
 - Revealing modular pattern
 - Closures
 - Function factory
+- Immediately Invoked Function Expressions (IIFE)
 To keep variables secure and private
 
 

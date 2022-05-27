@@ -96,6 +96,123 @@ const render = (() => {
 
 
 
+
+
+
+const cpuPlay = (() => {
+
+    // get array of all empty squares
+    // pick one form list at random
+    // set that square on the board
+    // render the new board
+
+})();
+
+const addEventListeners = (() =>  {
+    return () => {
+    const squares = Array.from(document.querySelectorAll('[data-name="square"]'));
+    squares.forEach(square => square.addEventListener('click', playerMove));
+    squares.forEach(square => square.addEventListener('transitionend', removeTransition));
+    const btnReset = document.querySelector('[data-name="reset"]');
+    btnReset.addEventListener('click', resetBoard);
+    }
+})();
+
+// when a taken square is chosen by a player, it highlights in red
+// this removed the "error" class from that square and the square transitions back
+// function removeTransition(e) {
+//     if (e.propertyName !== 'transform') return;
+//     e.target.classList.remove('error');   
+// }; 
+
+const removeTransition = ((e) => {
+    return (e) => {
+        if (e.propertyName !== 'transform') return;
+        e.target.classList.remove('error');   
+    }
+})(); 
+
+
+
+const playerMove = ((e) => {
+     return (e) => {   
+        let x = e.target.dataset.x;
+        let y = e.target.dataset.y;
+        let token = '';
+        if (gameBoard.getTurn() === 'Player1') {
+            token = 'X';
+        } else {
+            token = 'O'
+        }
+        gameBoard.setSquare(x, y, token);
+        drawSquare(x, y, token);
+        toggleTurn();
+    }
+})();
+
+const drawSquare = ((x, y, token) => {
+    return (x, y, token) => {
+        const div = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+        const playerToken = document.createTextNode(token);
+        const span = document.createElement('span');
+        div.innerHTML = '';
+        span.appendChild(playerToken);
+        div.appendChild(span);
+    }
+})();
+
+
+
+const resetBoard = (() => {
+    return () => {
+        clearBoard();
+        render.renderBoard();
+        addEventListeners();
+        if (gameBoard.getTurn() === 'Player2') {
+            toggleTurn();
+        }
+    }
+})();
+
+
+const clearBoard = (() => {
+    return () => {
+        document.querySelector('[data-name="board"]').innerHTML = '';
+        gameBoard.resetBoard();
+    }
+})();
+
+const toggleTurn = (() => {
+    const div = document.querySelector('[data-name="active-player"]');
+    const token1 = document.createTextNode('X');
+    const token2 = document.createTextNode('O');
+    const span = document.createElement('span');
+    const activePlayer = document.querySelector('[data-name="active-player"]');
+    span.appendChild(token1);
+    div.appendChild(span);
+
+        return () => {
+            // clear the current player token from the span
+            span.innerHTML = '';
+            // switch between players and set the "who's is the next go" at the bottom
+            if (gameBoard.getTurn() === 'Player1') {
+                gameBoard.setTurn('Player2');
+                span.appendChild(token2);
+                div.appendChild(span);
+                activePlayer.classList.remove('player1');
+                activePlayer.classList.add('player2');
+            } else {
+                gameBoard.setTurn('Player1');
+                span.appendChild(token1);
+                div.appendChild(span);
+                activePlayer.classList.remove('player2');
+                activePlayer.classList.add('player1');
+            }
+    }
+})();
+
+
+
 const gamePlay = (() => {
     'use strict';
 
@@ -116,98 +233,6 @@ const gamePlay = (() => {
     // repeat
 
 })();
-
-
-const cpuPlay = (() => {
-
-    // get array of all empty squares
-    // pick one form list at random
-    // set that square on the board
-    // render the new board
-
-})();
-
-function addEventListeners()  {
-    const squares = Array.from(document.querySelectorAll('[data-name="square"]'));
-    squares.forEach(square => square.addEventListener('click', playerMove));
-    squares.forEach(square => square.addEventListener('transitionend', removeTransition));
-    const btnReset = document.querySelector('[data-name="reset"]');
-    btnReset.addEventListener('click', resetBoard);
-}
-
-function playerMove(e) {
-    let x = e.target.dataset.x;
-    let y = e.target.dataset.y;
-    let token = '';
-    if (gameBoard.getTurn() === 'Player1') {
-        token = 'X';
-    } else {
-        token = 'O'
-    }
-    gameBoard.setSquare(x, y, token);
-    drawSquare(x, y, token);
-    toggleTurn();
-}
-
-function drawSquare(x, y, token) {
-    const div = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-    const playerToken = document.createTextNode(token);
-    const span = document.createElement('span');
-    div.innerHTML = '';
-    span.appendChild(playerToken);
-    div.appendChild(span);
-    
-    
-}
-
-// when a taken square is chosen by a player, it highlights in red
-// this removed the "error" class from that square and the square transitions back
-function removeTransition(e) {
-    if (e.propertyName !== 'transform') return;
-    e.target.classList.remove('error');
-}
-
-
-function resetBoard() {
-    clearBoard();
-    render.renderBoard();
-    addEventListeners();
-    if (gameBoard.getTurn() === 'Player2') {
-        toggleTurn();
-    }
-};
-
-
-function clearBoard() {
-    document.querySelector('[data-name="board"]').innerHTML = '';
-    gameBoard.resetBoard();
-};
-
-function toggleTurn() {
-    const div = document.querySelector('[data-name="active-player"]');
-    const token1 = document.createTextNode('X');
-    const token2 = document.createTextNode('O');
-    const span = document.createElement('span');
-    const activePlayer = document.querySelector('[data-name="active-player"]');
-
-    div.innerHTML = '';
-    // switch between players and set the "who's is the next go" at the bottom
-    if (gameBoard.getTurn() === 'Player1') {
-        gameBoard.setTurn('Player2');
-        span.appendChild(token2);
-        div.appendChild(span);
-        activePlayer.classList.remove('player1');
-        activePlayer.classList.add('player2');
-
-    } else {
-        gameBoard.setTurn('Player1');
-        span.appendChild(token1);
-        div.appendChild(span);
-        activePlayer.classList.remove('player2');
-        activePlayer.classList.add('player1');
-    }
-}
-
 
 
 
