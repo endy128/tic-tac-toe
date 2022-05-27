@@ -84,13 +84,22 @@ body {
   justify-self: center;
 }
 
-.square span,
-.active-player span {
+.square span {
   position: relative;
   left: 45%;
   transform: translateX(-50%);
-  top: 45%;
+  top: 40%;
   transform: translateY(-50%);
+  font-size: 36px;
+}
+
+.active-player span {
+  position: relative;
+  left: 40%;
+  transform: translateX(-50%);
+  top: 15%;
+  transform: translateY(-50%);
+  font-size: 36px;
 }
 
 .active-player {
@@ -98,7 +107,7 @@ body {
   width: 150px;
   height: 50px;
   background-color: green;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .player1 {

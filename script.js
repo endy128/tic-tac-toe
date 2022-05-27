@@ -134,7 +134,7 @@ const removeTransition = ((e) => {
 
 
 
-const playerMove = ((e) => {
+const playerMove = (() => {
      return (e) => {   
         let x = e.target.dataset.x;
         let y = e.target.dataset.y;
@@ -144,13 +144,42 @@ const playerMove = ((e) => {
         } else {
             token = 'O'
         }
-        gameBoard.setSquare(x, y, token);
-        drawSquare(x, y, token);
-        toggleTurn();
+        // if the square is already taken, exit the function
+        if (gameBoard.setSquare(x, y, token) === 'error') {
+            return;
+        } else {
+            drawSquare(x, y, token);
+            toggleTurn();
+            if (checkForWin(token) != null) {
+                console.log(`WINNER!!: ${token}`); 
+            }
+        }
     }
 })();
 
-const drawSquare = ((x, y, token) => {
+const checkForWin = (() => {
+    return (token) => {
+        let board = gameBoard.getBoard();
+        // check the last placed token for winning move
+        if ((token === board[0][0] && token === board[0][1] && token === board[0][2]) ||   
+            (token === board[1][0] && token === board[1][1] && token === board[1][2]) || 
+            (token === board[2][0] && token === board[2][1] && token === board[2][2]) ||
+
+            (token === board[0][0] && token === board[1][0] && token === board[2][0]) ||   
+            (token === board[0][1] && token === board[1][1] && token === board[2][1]) || 
+            (token === board[0][2] && token === board[1][2] && token === board[2][2]) ||
+  
+            (token === board[0][0] && token === board[1][1] && token === board[2][2]) || 
+            (token === board[0][2] && token === board[1][1] && token === board[2][0])
+        ){
+            return(token);
+
+        }
+        return;
+    }
+})();
+
+const drawSquare = (() => {
     return (x, y, token) => {
         const div = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
         const playerToken = document.createTextNode(token);
