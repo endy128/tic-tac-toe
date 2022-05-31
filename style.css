@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 :root {
-    --accent-color: #0ea5e9;
-    --light-color: white;
-    --shaded-color:  #ebebeb;
-    --shadow-color: rgba(187, 187, 187, 0.603);
+    --bg-color: rgb(187, 187, 187);
+    --board-color: white;
+    --error: red;
+    --p1-color: rgba(0, 26, 255, 0.685);
+    --p2-color: rgb(255, 255, 0);
 
 }
 
@@ -19,11 +20,11 @@
 html, 
 body {
     height: 100%;
-    background-color: var(--accent-color);
+    background-color: var(--bg-color);
 }
 
 .container {
-    background-color: rgb(69, 134, 190);
+    background-color: var(--bg-color);
     /* width: 1000px; */
     display: grid;
     grid-template-columns: minmax(100px, 1fr) 5fr minmax(100px, 1fr);
@@ -48,22 +49,22 @@ body {
 .square {
   height: 100%;
   width: 100%;
-  background-color: #0ea5e9;
+  background-color: var(--board-color);
   transition: all .4s linear;
   z-index: 9;
 }
 
 .square:hover {
-  /* border: 1px solid red; */
-  /* transform: scale(1.05); */
+  /* border: 1px solid red;  */
+  /* transform: scale(1.1); */
 }
 
 .error {
-  border: 1px solid red;
+  border: 1px solid var(--error);
   transform: scale(1.1);
-  box-shadow: 0 0 5px red;
+  box-shadow: 0 0 5px var(--error);;
   transition: all .01s linear;
-  background-color: red;
+  background-color: var(--error);;
 }
 
 .score {
@@ -106,21 +107,27 @@ body {
   display: block;
   width: 150px;
   height: 50px;
-  background-color: green;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .player1 {
-  background-color: blue;
+  background-color: var(--p1-color);
 }
 
 .player2 {
-  background-color: red;
+  background-color: var(--p2-color);
 }
 
 button {
-  border-radius: 10px;
+  border-radius: 5px;
   border-style: none;
   display: none;
+  width: 131px;
+  font-size: 26px;
 }
 
+.next-move {
+  justify-self: right;
+  align-self: center;
+  font-size: 18px;
+}
