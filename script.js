@@ -100,6 +100,8 @@ const render = (() => {
 
 
 const cpuPlay = (() => {
+    'use strict';
+
 
     // get array of all empty squares
     // pick one form list at random
@@ -109,6 +111,8 @@ const cpuPlay = (() => {
 })();
 
 const addEventListeners = (() =>  {
+    'use strict';
+
     return () => {
     const squares = Array.from(document.querySelectorAll('[data-name="square"]'));
     squares.forEach(square => square.addEventListener('click', playerMove));
@@ -120,12 +124,9 @@ const addEventListeners = (() =>  {
 
 // when a taken square is chosen by a player, it highlights in red
 // this removed the "error" class from that square and the square transitions back
-// function removeTransition(e) {
-//     if (e.propertyName !== 'transform') return;
-//     e.target.classList.remove('error');   
-// }; 
-
 const removeTransition = ((e) => {
+    'use strict';
+
     return (e) => {
         if (e.propertyName !== 'transform') return;
         e.target.classList.remove('error');   
@@ -135,6 +136,8 @@ const removeTransition = ((e) => {
 
 
 const playerMove = (() => {
+    'use strict';
+
      return (e) => {   
         let x = e.target.dataset.x;
         let y = e.target.dataset.y;
@@ -151,13 +154,51 @@ const playerMove = (() => {
             drawSquare(x, y, token);
             toggleTurn();
             if (checkForWin(token) != null) {
-                console.log(`WINNER!!: ${token}`); 
+                console.log(`WINNER!!: ${token}`);
+                displayWinner(token);
+                gameOver();
             }
         }
     }
 })();
 
+const displayWinner = (() => {
+    'use strict';
+
+    return (token) => {
+        const score = document.querySelector('[data-name="score"]');
+        const h1 = document.createElement('h1');
+        score.innerHTML = '';
+        if (token === 'X') {
+            const winner = document.createTextNode('CROSSES IS THE WINNER!!');
+            h1.appendChild(winner);
+            score.appendChild(h1);
+        } else {
+            const winner = document.createTextNode('NOUGHTS IS THE WINNER!!');
+            h1.appendChild(winner);
+            score.appendChild(h1);
+        }
+        return;
+    }
+
+})();
+
+const gameOver = (() => {
+    'use strict';
+
+    return () => {
+        // remove the event listeners on the squares when it's game over, so no more player moves can occur
+        const squares = Array.from(document.querySelectorAll('[data-name="square"]'));
+        squares.forEach(square => square.removeEventListener('click', playerMove));
+
+        const btnReset = document.querySelector('[data-name="reset"]');
+        btnReset.style.display = 'block';
+    }
+})();
+
 const checkForWin = (() => {
+    'use strict';
+
     return (token) => {
         let board = gameBoard.getBoard();
         // check the last placed token for winning move
@@ -180,6 +221,8 @@ const checkForWin = (() => {
 })();
 
 const drawSquare = (() => {
+    'use strict';
+
     return (x, y, token) => {
         const div = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
         const playerToken = document.createTextNode(token);
@@ -193,6 +236,8 @@ const drawSquare = (() => {
 
 
 const resetBoard = (() => {
+    'use strict';
+
     return () => {
         clearBoard();
         render.renderBoard();
@@ -200,18 +245,32 @@ const resetBoard = (() => {
         if (gameBoard.getTurn() === 'Player2') {
             toggleTurn();
         }
+        const btnReset = document.querySelector('[data-name="reset"]');
+        btnReset.style.display = 'none';
+
+        const score = document.querySelector('[data-name="score"]');
+        score.innerHTML = '';
     }
 })();
 
 
 const clearBoard = (() => {
+    'use strict';
+
     return () => {
         document.querySelector('[data-name="board"]').innerHTML = '';
         gameBoard.resetBoard();
+
+        const btnReset = document.querySelector('[data-name="reset"]');
+        btnReset.style.display = 'none';
+
+
     }
 })();
 
 const toggleTurn = (() => {
+    'use strict';
+
     const div = document.querySelector('[data-name="active-player"]');
     const token1 = document.createTextNode('X');
     const token2 = document.createTextNode('O');

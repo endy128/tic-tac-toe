@@ -121,5 +121,6 @@ body {
 button {
   border-radius: 10px;
   border-style: none;
+  display: none;
 }
 
