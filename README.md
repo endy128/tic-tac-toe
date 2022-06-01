@@ -8,7 +8,7 @@ Using:
 - Revealing modular pattern
 - Closures
 - Function factory
-- Immediately Invoked Function Expressions (IIFE)
+- Immediately Invoked Function Expressions (IIFE), as practice in this case
 
 
 Potentially trying to set up some AI (we will see how it goes :-)
